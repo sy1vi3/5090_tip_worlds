@@ -10,10 +10,16 @@ extern pros::Controller master;
 extern pros::Controller partner;
 extern pros::Imu InertialSensor;
 
+extern pros::ADIMotor red;
+extern pros::ADIMotor green;
+extern pros::ADIMotor blue;
+
 extern bool brakeMode;
 extern bool liftBrakeMode;
 extern int backClampState;
 extern bool frontClampState;
+extern bool ptoMode;
+extern int intakeState;
 
 
 extern pros::ADIDigitalOut frontClaw;
@@ -56,6 +62,7 @@ extern void skillsAuton();
 extern void goalRush(int sped, int backSped);
 extern void leftMiddleMA();
 extern void rightMiddleMA() ;
+extern void lights(int _red, int _green, int _blue);
 
 
 

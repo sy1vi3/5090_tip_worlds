@@ -60,47 +60,143 @@ void autonomous() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
+void run_lights_fn(void* param) {
+	int time_delay = 10;
+	while (true) {
+		for (int i = 0; i < 255; i++) {
+			lights(255, i, 0);
+			pros::Task::delay(time_delay);
+		}
+		for (int i = 255; i > 0; i--) {
+			lights(i, 255, 0);
+			pros::Task::delay(time_delay);
+		}
+		for (int i = 0; i < 255; i++) {
+			lights(0, 255, i);
+			pros::Task::delay(time_delay);
+		}
+		for (int i = 255; i > 0; i--) {
+			lights(0, i, 255);
+			pros::Task::delay(time_delay);
+		}
+		for (int i = 0; i < 255; i++) {
+			lights(i, 0, 255);
+			pros::Task::delay(time_delay);
+		}
+		for (int i = 255; i > 0; i--) {
+			lights(255, 0, i);
+			pros::Task::delay(time_delay);
+		}
+	}
+}
+
 void drive() {
-	if (abs(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y)) > 10) {
-		l1.move(-master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
-		l2.move(-master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
-		l3.move(-master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
-	}
-	else {
-		l1.move_velocity(0);
-		l2.move_velocity(0);
-		l3.move_velocity(0);
-	}
-
-	if (abs(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y)) > 10) {
-		r1.move(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
-		r2.move(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
-		r3.move(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
-	}
-	else {
-		r1.move_velocity(0);
-		r2.move_velocity(0);
-		r3.move_velocity(0);
-	}
-
-	if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
-		if (brakeMode) {
-			brakeMode = false;
-			r1.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-			r2.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-			r3.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-			l1.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-			l2.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-			l3.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	if (ptoMode) {
+		if (abs(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y)) > 10) {
+			l1.move(-master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
+			l2.move(-master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
+			l3.move(-master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
 		}
 		else {
-			brakeMode = true;
-			r1.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-			r2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-			r3.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-			l1.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-			l2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-			l3.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+			l1.move_velocity(0);
+			l2.move_velocity(0);
+			l3.move_velocity(0);
+		}
+
+		if (abs(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y)) > 10) {
+			r1.move(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
+			r2.move(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
+			r3.move(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
+		}
+		else {
+			r1.move_velocity(0);
+			r2.move_velocity(0);
+			r3.move_velocity(0);
+		}
+
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+			if (brakeMode) {
+				brakeMode = false;
+				r1.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+				r2.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+				r3.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+				l1.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+				l2.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+				l3.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+			}
+			else {
+				brakeMode = true;
+				r1.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+				r2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+				r3.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+				l1.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+				l2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+				l3.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+			}
+		}
+	}
+	else {
+		if (abs(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y)) > 10) {
+			l1.move(-master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
+			l2.move(-master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
+		}
+		else {
+			l1.move_velocity(0);
+			l2.move_velocity(0);
+		}
+
+		if (abs(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y)) > 10) {
+			r1.move(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
+			r2.move(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
+		}
+		else {
+			r1.move_velocity(0);
+			r2.move_velocity(0);
+		}
+
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+			if (brakeMode) {
+				brakeMode = false;
+				r1.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+				r2.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+				l1.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+				l2.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+			}
+			else {
+				brakeMode = true;
+				r1.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+				r2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+				l1.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+				l2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+
+			}
+		}
+	}
+}
+
+void intakes() {
+	if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+		if (intakeState == 0 || intakeState == 2) {
+			ptOff();
+			r3.move(127);
+			intakeState = 1;
+		}
+		else {
+			ptOn();
+			r3.move_velocity(0);
+			intakeState = 0;
+		}
+	}
+	else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+		if (intakeState == 0 || intakeState == 1) {
+			ptOff();
+			r3.move(-127);
+			intakeState = 2;
+		}
+		else {
+			ptOn();
+			r3.move_velocity(0);
+			intakeState = 0;
 		}
 	}
 }
@@ -148,10 +244,13 @@ void opcontrol() {
 	backClaw.set_value(false);
 	rotator.set_value(true);
 	frontClaw.set_value(true);
-	pto.set_value(true);
+	ptOn();
+	pros::Task run_lights(run_lights_fn, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "run_lights");
 	while (true) {
 		drive();
 		lift();
+		intakes();
+
 		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
 			frontClampState = !frontClampState;
 			frontClaw.set_value(frontClampState);

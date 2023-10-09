@@ -13,6 +13,10 @@ pros::Motor rlift(17);
 pros::Motor llift(9);
 pros::Imu InertialSensor(4);
 
+pros::ADIMotor red(8);
+pros::ADIMotor green(7);
+pros::ADIMotor blue(6);
+
 pros::ADIDigitalOut frontClaw(5, true);
 pros::ADIDigitalOut backClaw(2, false);
 pros::ADIDigitalOut rotator(3, true);
@@ -22,3 +26,12 @@ int backClampState = 0;
 bool frontClampState = true;
 bool brakeMode = false;
 bool liftBrakeMode = true;
+bool ptoMode = true;
+int intakeState = 0;
+
+void lights(int _red, int _green, int _blue) {
+    red.set_value(_red / 2);
+    green.set_value(_green / 2);
+    blue.set_value(_blue / 2);
+}
+

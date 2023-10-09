@@ -9,6 +9,8 @@
 # PROS
 bin/
 .vscode/
+*.VC.db
+*.VC.opendb
 compile_commands.json
 temp.log
 temp.errors

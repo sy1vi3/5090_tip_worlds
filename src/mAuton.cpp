@@ -164,10 +164,12 @@ void rotatorOff() {
 
 void ptOn() {
   pto.set_value(true);
+  ptoMode = true;
 }
 
 void ptOff() {
   pto.set_value(false);
+  ptoMode = false;
 }
 
 //---------------------------------------------------------------------
