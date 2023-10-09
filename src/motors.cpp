@@ -11,6 +11,7 @@ pros::Motor l2(12);
 pros::Motor l3(11);
 pros::Motor rlift(17);
 pros::Motor llift(9);
+pros::Imu InertialSensor(4);
 
 pros::ADIDigitalOut frontClaw(5, true);
 pros::ADIDigitalOut backClaw(2, false);

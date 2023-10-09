@@ -41,7 +41,11 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+void autonomous() {
+	initAuton();
+	/// left/right goals need 800,700 parameter and middle needs 1100,900
+	goalRush(1100, 900);
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -137,7 +141,7 @@ void lift() {
 		llift.move_velocity(0);
 		rlift.move_velocity(0);
 	}
-	
+
 }
 
 void opcontrol() {
